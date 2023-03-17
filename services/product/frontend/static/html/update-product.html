@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Заголовок страницы -->
+    <title>Обновить товар</title>
+    <!-- Подключение стилей Materialize -->
+    <link rel="stylesheet" type="text/css" href="/static/css/materialize.css">
+    <!-- Подключение шрифтов Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<body class="has-fixed-sidenav">
+    <header>
+    </header>
+    <main class="white">
+        <div class="container">
+            <div class="section">
+                <!-- Заголовок формы -->
+                <h5>Внести изменения в товар</h5>
+                <!-- Форма отправки данных для обновления товара -->
+                <form class="col s12" action="/product/products/update" method="post">
+
+                    <!-- Скрытое поле с ID товара -->
+                    <input id="product_id" name="id" type="hidden" value="{{ .Product.Id }}">
+
+                    <div class="row">
+                        <!-- Поле для ввода наименования товара -->
+                        <div class="input-field col s8">
+                            <!-- Чтобы отображать обратные кавычки, необходимо добавить тэг html внутри шаблона-->
+                            <input id="product_name" name="name" type="text" class="validate"
+                                value="{{ .Product.Name | html }}">
+                            <label for="product_name">Наименование товара</label>
+                        </div>
+
+                        <!-- Поле для ввода цены товара -->
+                        <div class="input-field col s4">
+                            <i class="material-icons prefix">currency_ruble</i>
+                            <input id="product_price" name="price" type="number" value="{{ .Product.Price }}"
+                                class="validate" min="0" step="1">
+                            <label for="product_price">Цена товара</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s4">
+                            <!-- Выбор единицы измерения товара -->
+                            <label>Единицы измерения</label>
+                            <!-- Так как после вызова range .Units  шаблонизатор перейдет в контекст 
+                                единиц измерения, необходимо заранее запомнить id единицы измерения товара,
+                                чтобы подставить её в выпадающий список
+                            -->
+                            {{ $productUnitId := .Product.UnitId }}
+                            <select name="unit_id" class="browser-default">
+                                {{ range .Units }}
+                                <!-- Сравнение id текущей единицы измерения с productUnitId-->
+                                {{ if eq .Id $productUnitId }}
+                                <!-- Выбранная единица измерения -->
+                                <option value="{{ .Id }}" selected>{{ .Name | html}}</option>
+                                {{ else }}
+                                <option value="{{ .Id }}">{{ .Name | html }}</option>
+                                {{ end }}
+                                {{ end }}
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Кнопка подтверждения изменений -->
+                    <button class="waves-effect waves-blue btn-flat white blue-text" type="submit">
+                        <i class="material-icons left">done</i>Подтвердить
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Подключение скриптов Materialize -->
+    <script src="/static/js/materialize.min.js"></script>
+    <!-- Подключение скриптов навигации -->
+    <script type="text/javascript" src="/static/js/nav.js"></script>
+    <script src="/static/js/sidenav.js"></script>
+    <script src="/product/static/js/sidenav-product.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+
+</body>
+
+</html>
+

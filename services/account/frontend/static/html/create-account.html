@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/css/materialize.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Добавить счет</title>
+</head>
+
+<body class="has-fixed-sidenav">
+    <header>
+    </header>
+    <main class="white">
+        <div class="container">
+            <div class="section">
+                <h5>Добавить счет</h5>
+                <form class="col s12" action="/account/accounts/create" method="post">
+                    <div class="row">
+                        <div class="input-field col s8">
+                            <input id="bank_name" name="bank_name" type="text" class="validate">
+                            <label for="bank_name">Наименование банка</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input id="bin" name="bin" type="number" class="validate">
+                            <label for="bin">БИК</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s4">
+                            <input id="account" name="account" type="text" class="validate">
+                            <label for="account">Рассчетный счет</label>
+                        </div>
+                    </div>
+                    <button class="waves-effect waves-blue btn-flat white blue-text" type="submit"><i
+                            class="material-icons left">done</i>Подтвердить</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script src="/static/js/nav.js"></script>
+    <script src="/static/js/sidenav.js"></script>
+    <script src="/account/static/js/sidenav-account.js"></script>
+    <!-- Materialize JavaScript -->
+    <script src="/static/js/materialize.min.js"></script>
+</body>
+
+</html>

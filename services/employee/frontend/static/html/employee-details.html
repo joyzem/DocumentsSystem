@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/css/materialize.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Сотрудник</title>
+</head>
+
+<body class="has-fixed-sidenav">
+    <header>
+    </header>
+    <main class="white">
+        <div class="container">
+            <div class="section">
+                <h5>Информация о сотруднике</h5>
+                <table class="highlight">
+                    <tr>
+                        <td>ФИО</td>
+                        <td>{{ .LastName }} {{ .FirstName }} {{ .MiddleName }}</td>
+                    </tr>
+                    <tr>
+                        <td>Должность</td>
+                        <td>{{ .Post }}</td>
+                    </tr>
+                    <tr>
+                        <td>Паспорт</td>
+                        <td>{{ .PassportSeries}} {{ .PassportNumber }}</td>
+                    </tr>
+                    <tr>
+                        <td>Дата выдачи</td>
+                        <td>{{ .PassportDateOfIssue}}</td>
+                    </tr>
+                    <tr>
+                        <td>Кем выдан</td>
+                        <td>{{ .PassportIssuedBy }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </main>
+    <script src="/static/js/nav.js"></script>
+    <script src="/static/js/sidenav.js"></script>
+    <script src="/employee/static/js/sidenav-employee.js"></script>
+    <!-- Materialize JavaScript -->
+    <script src="/static/js/materialize.min.js"></script>
+</body>
+
+</html>

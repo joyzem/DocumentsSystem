@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/css/materialize.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Организация</title>
+</head>
+
+<body class="has-fixed-sidenav">
+    <header>
+    </header>
+    <main class="white">
+        <div class="container">
+            <div class="section">
+                <h5>Информация об организации</h5>
+                <table class="highlight">
+                    <tr>
+                        <td>Наименование</td>
+                        <td>{{ .Name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Адрес</td>
+                        <td>{{ .Address }}</td>
+                    </tr>
+                    <tr>
+                        <td>Банк</td>
+                        <td>{{ .BankName }} | БИК: {{ .BankIdentityNumber }}</td>
+                    </tr>
+                    <tr>
+                        <td>Генеральный директор</td>
+                        <td>{{ .Chief}}</td>
+                    </tr>
+                    <tr>
+                        <td>Главный бухгалтер</td>
+                        <td>{{ .FinancialChief }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </main>
+    <script src="/static/js/nav.js"></script>
+    <script src="/static/js/sidenav.js"></script>
+    <script src="/organization/static/js/sidenav-organization.js"></script>
+    <!-- Materialize JavaScript -->
+    <script src="/static/js/materialize.min.js"></script>
+</body>
+
+</html>

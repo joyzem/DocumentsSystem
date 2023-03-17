@@ -1,0 +1,77 @@
+    <!-- Определение типа документа и языка страницы -->
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <!-- Установка кодировки документа -->
+        <meta charset="UTF-8">
+        <!-- Подключение таблицы стилей Materialize -->
+        <link rel="stylesheet" type="text/css" href="/static/css/materialize.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+        <!-- Подключение шрифта Material Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- Заголовок страницы -->
+        <title>Добавить товар</title>
+    </head>
+    <body class="has-fixed-sidenav">
+        <!-- Создание шапки страницы -->
+        <header>
+        </header>
+        <!-- Создание основного блока страницы -->
+        <main class="white">
+            <!-- Создание контейнера для размещения элементов страницы -->
+            <div class="container">
+                <!-- Создание секции страницы -->
+                <div class="section">
+                    <!-- Заголовок секции -->
+                    <h5>Добавить товар</h5>
+                    <!-- Форма для добавления товара -->
+                    <form class="col s12" action="/product/products/create" method="post">
+                        <!-- Ряд для элементов формы -->
+                        <div class="row">
+                            <!-- Поле для наименования товара -->
+                            <div class="input-field col s8">
+                                <input id="product_name" name="name" type="text" class="validate">
+                                <label for="product_name">Наименование товара</label>
+                            </div>
+                            <!-- Поле для цены товара -->
+                            <div class="input-field col s4">
+                                <i class="material-icons prefix">currency_ruble</i>
+                                <input id="product_price" name="price" type="number" class="validate" min="0"
+                                    step="1">
+                                <label for="product_price">Цена товара</label>
+                            </div>
+                        </div>
+                        <!-- Ряд для элементов формы -->
+                        <div class="row">
+                            <!-- Поле для выбора единиц измерения -->
+                            <div class="col s4">
+                                <label>Единицы измерения</label>
+                                <select name="unit_id" class="browser-default">
+                                    <!-- Первый элемент выпадающего списка -->
+                                    <option value=""disabled selected>Выберите единицы измерения</option>
+                                    <!-- Генерация элементов выпадающего списка с помощью шаблонизатора -->
+                                    {{ range . }}
+                                    <option value="{{ .Id }}">{{ .Name }}</option>
+                                    {{ end }}
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Кнопка для отправки формы -->
+                        <button class="waves-effect waves-blue btn-flat white blue-text" type="submit"><i
+                                class="material-icons left">done</i>Подтвердить</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+        <!-- Подключение скрипта для работы навигации -->
+        <script src="/static/js/nav.js"></script>
+        <!-- Подключение скрипта для работы бокового меню -->
+        <script src="/static/js/sidenav.js"></script>
+        <!-- Подключение скрипта инициализации бокового меню-->
+        <script src="/product/static/js/sidenav-product.js"></script>
+        <!-- Подключение скрипта Materialize -->
+        <script src="/static/js/materialize.min.js"></script>
+    </body>
+
+    </html>
+

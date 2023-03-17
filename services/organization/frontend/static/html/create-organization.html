@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/css/materialize.css">
+    <!-- Materialize JavaScript -->
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Добавить организацию</title>
+</head>
+
+<body class="has-fixed-sidenav">
+    <header>
+    </header>
+    <main class="white">
+        <div class="container">
+            <div class="section">
+                <h5>Добавить организацию</h5>
+                <form class="col s12" action="/organization/organizations/create" method="post">
+                    <div class="row">
+                        <div class="col s7">
+                            <div class="input-field row">
+                                <input id="name" name="name" type="text" class="validate">
+                                <label for="name">Наименование организации</label>
+                            </div>
+                            <div class="input-field row">
+                                <input id="address" name="address" type="text" class="validate">
+                                <label for="address">Адрес</label>
+                            </div>
+                            <div class="input-field row">
+                                <select name="account_id" class="browser-default">
+                                    <option value="" disabled selected>Выберите счет</option>
+                                    {{ range . }}
+                                    <option value="{{ .Id }}">{{ .BankName }} | БИК: {{ .BankIdentityNumber }}</option>
+                                    {{ end }}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col s1"></div>
+                        <div class="col s4">
+                            <div class="input-field row">
+                                <input id="chief" name="chief" type="text" class="validate">
+                                <label for="chief">Генеральный директор</label>
+                            </div>
+                            <div class="input-field row">
+                                <input id="financial_chief" name="financial_chief" type="text"
+                                    class="validate">
+                                <label for="financial_chief">Главный бухгалтер</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="waves-effect waves-blue btn-flat white blue-text" type="submit"><i
+                            class="material-icons left">done</i>Подтвердить</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script src="/static/js/nav.js"></script>
+    <script src="/static/js/sidenav.js"></script>
+    <script src="/organization/static/js/sidenav-organization.js"></script>
+    <script src="/static/js/materialize.min.js"></script>
+</body>
+
+</html>

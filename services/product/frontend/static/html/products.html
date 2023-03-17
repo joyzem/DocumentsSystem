@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="/static/css/materialize.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <title>Товары</title>
+</head>
+
+<body class="has-fixed-sidenav">
+  <header>
+  <!-- Здесь код добавляется с помощью JS скриптов -->
+  </header>
+  <main class="white">
+    <!-- Класс ‘container’ создает отступы по краям так, чтобы контент занимал 80% страницы -->
+    <div class="container">
+      <!-- Класс ‘section’ создает отступы сверху и снизу -->
+      <div class="section">
+        <h5>Товары</h5>
+        <!-- Кнопка для перехода на страницы добавления товара -->
+        <a class="waves-effect waves-blue btn-flat white blue-text" href="/product/products/create">
+          <!-- Иконка добавления из библиотеки Google Icons -->
+          <i class="material-icons left">add</i>
+          Добавить
+        </a>
+        <!-- Таблицы товаров. Класс ‘highlight’ подсвечивает элемент таблицы при наведении мышкой -->
+        <table class="highlight">
+          <!-- Заголовки таблицы -->
+          <thead>
+            <th>Наименование продукта</th>
+            <th>Цена</th>
+            <th>Единицы измерения</th>
+            <th></th>
+          </thead>
+          <!-- Использование синтаксиса шаблонов. range берёт
+          структуру, переданную через библиотеку html/templates и 
+          начинает пробег по переданному списку. Структура, 
+          переданная в шаблон, содержит список, каждый элемент
+          которого содержит товар и единицу измерения -->
+          {{range . }}
+          <tr>
+            <!-- Сейчас шаблон находится в контексте элемента списка.
+            Через точку происходит обращение к полям структуры -->
+            <td>{{.Product.Name}}</td>
+            <td>{{.Product.Price}}</td>
+            <td>{{.Unit.Name}}</td>
+            <td>
+              <!-- Блок для кнопок -->
+              <div class="valign-wrapper right">
+                <!-- Форма для отправки запроса на удаление товара -->
+                <form action="/product/products/delete" method="post" class="col">
+                  <!-- Форма должна содержать в себе поля, которые
+                  необходимо отправить на сервер. В данном случае 
+                  нет необходимости показывать id товара, однако
+                  передать это поле надо, поэтому задаём тип “hidden” 
+                  и присваиваем значение через шаблон .Product.Id 
+                  -->
+                  <input name="id" type="hidden" value="{{ .Product.Id }}">
+                  <!-- Кнопка для отправки запроса формы. Обязательно
+                  присваиваем тип “submit” -->
+                  <button type="submit" class="btn-floating z-depth-0 waves-effect waves-light margin-right">
+                    <!-- Иконка для удаления -->
+                    <i class="material-icons red margin-right">delete</i>
+                  </button>
+                </form>
+                <!-- Ссылка для перехода на страницу обновления
+                информации о товаре. Ссылка содержит id товара -->
+                <a href="/product/products/update/{{.Product.Id}}" class="col">
+                  <button class="btn-floating waves-effect z-depth-0 waves-light ">
+                    <i class="material-icons orange">edit</i>
+                  </button>
+                </a>
+              </div>
+            </td>
+          </tr>
+          <!-- Конец списка -->
+          {{end}}
+        </table>
+      </div>
+    </div>
+  </main>
+  <!-- Подключение скриптов для создания панелей навигации -->
+  <script type="text/javascript" src="/static/js/nav.js"></script>
+  <script src="/static/js/sidenav.js"></script>
+  <!-- Инициализации боковой панели навигации для товаров -->
+  <script src="/product/static/js/sidenav-product.js"></script>
+  <script src="/static/js/materialize.min.js"></script>
+</body>
+
+</html>
+

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/css/materialize.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Тело доверенности</title>
+</head>
+
+<body class="has-fixed-sidenav">
+    <header>
+    </header>
+    <main class="white">
+        <div class="container">
+            <div class="section">
+                <h5>Доверенность</h5>
+                <table class="highlight">
+                    <tr>
+                        <td>Код доверенности</td>
+                        <td>{{ .Proxy.Id }}</td>
+                    </tr>
+                    <tr>
+                        <td>Организация</td>
+                        <td>{{ .Proxy.Organization }}</td>
+                    </tr>
+                    <tr>
+                        <td>Дата выдачи</td>
+                        <td>{{ .Proxy.DateOfIssue }}</td>
+                    </tr>
+                    <tr>
+                        <td>Действительна по</td>
+                        <td>{{ .Proxy.IsValidUntil }}</td>
+                    </tr>
+                    <tr>
+                        <td>Выдана</td>
+                        <td>{{ .Proxy.Employee }}</td>
+                    </tr>
+                    <tr>
+                        <td>Получение от</td>
+                        <td>{{ .Proxy.Customer }}</td>
+                    </tr>
+                </table>
+                <div class="divider"></div>
+                <div class="section">
+                    <form class="col s12" action="/documents/proxies/body/create" method="post">
+                        <input type="hidden" name="proxy_id" value="{{ .Proxy.Id }}">
+                        <div class="row">
+                            <div class="col s8">
+                                <label>Товар</label>
+                                <select name="product_id" class="browser-default">
+                                    <option value="" disabled selected>Выберите товар</option>
+                                    {{ range .Products }}
+                                    <option value="{{ .Id }}">{{ .Name }} | Цена: {{ .Price }}</option>
+                                    {{ end }}
+                                </select>
+                            </div>
+                            <div class="col s4">
+                                <input id="product_amount" name="product_amount" type="number" class="validate" min="1"
+                                    step="1">
+                                <label for="product_amount">Количество</label>
+                            </div>
+                        </div>
+                        <button class="waves-effect waves-blue btn-flat white blue-text" type="submit"><i
+                                class="material-icons left">done</i>Подтвердить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script type="text/javascript" src="/static/js/nav.js"></script>
+    <script src="/static/js/sidenav.js"></script>
+    <script src="/documents/static/js/sidenav-documents.js">
+    </script>
+    <!-- Materialize JavaScript -->
+    <script src="/static/js/materialize.min.js"></script>
+</body>
+
+</html>

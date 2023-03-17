@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/css/materialize.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Счета</title>
+</head>
+
+<body class="has-fixed-sidenav">
+    <header>
+    </header>
+    <main class="white">
+        <div class="container">
+            <div class="section">
+                <h5>Счета</h5>
+                <a href="/account/accounts/create" class="waves-effect waves-blue btn-flat white blue-text"><i
+                        class="material-icons left">add</i>Добавить</a>
+                </p>
+                <table class="highlight">
+                    <thead>
+                        <th>Имя банка</th>
+                        <th>Рассчетный счет</th>
+                        <th>БИК</th>
+                        <th></th>
+                    </thead>
+                    {{ range . }}
+                    <tr>
+                        <td>{{ .BankName }}</td>
+                        <td>{{ .Account }}</td>
+                        <td>{{ .BankIdentityNumber }}</td>
+                        <td>
+                            <div class="valign-wrapper right">
+                                <form action="/account/accounts/delete" method="post" class="col">
+                                  <input name="id" type="hidden" value="{{ .Id }}">
+                                  <button type="submit" class="btn-floating z-depth-0 waves-effect waves-light margin-right">
+                                    <i class="material-icons red">delete</i>
+                                  </button>
+                                </form>
+                                <a href="/account/accounts/update/{{.Id}}" class="col">
+                                  <button class="btn-floating waves-effect z-depth-0 waves-light ">
+                                    <i class="material-icons orange">edit</i>
+                                  </button>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {{ end }}
+                </table>
+            </div>
+        </div>
+    </main>
+    <script src="/static/js/nav.js"></script>
+    <script src="/static/js/sidenav.js"></script>
+    <script src="/account/static/js/sidenav-account.js"></script>
+    <script src="/static/js/materialize.min.js"></script>
+</body>
+
+</html>

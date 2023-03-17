@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/css/materialize.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Обновить контрагента</title>
+</head>
+
+<body class="has-fixed-sidenav">
+    <header>
+    </header>
+    <main class="white">
+        <div class="container">
+            <div class="section">
+                <h5>Внести изменения в контрагента</h5>
+                <form class="col s12" action="/customer/customers/update" method="post">
+                    <input name="id" type="hidden" value="{{ .Id }}">
+                    <div class="row">
+                        <div class="input-field col s8">
+                            <input id="name" name="name" value="{{ .Name | html }}" type="text" class="validate">
+                            <label for="name">Наименование контрагента</label>
+                        </div>
+                    </div>
+                    <button class="waves-effect waves-blue btn-flat white blue-text" type="submit"><i
+                            class="material-icons left">done</i>Подтвердить</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script src="/static/js/nav.js"></script>
+    <script src="/static/js/sidenav.js"></script>
+    <script src="/customer/static/js/sidenav-customer.js"></script>
+    <!-- Materialize JavaScript -->
+    <script src="/static/js/materialize.min.js"></script>
+</body>
+
+</html>

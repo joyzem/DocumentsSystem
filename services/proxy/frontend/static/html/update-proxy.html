@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/css/materialize.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Обновить доверенность</title>
+</head>
+
+<body class="has-fixed-sidenav">
+    <header>
+    </header>
+    <main class="white">
+        <div class="container">
+            <div class="section">
+                <h5>Внести изменения в доверенность</h5>
+                <form class="col s12" action="/documents/proxies/update" method="post">
+                    <input type="hidden" name="id" value="{{ .Proxy.ProxyHeader.Id }}">
+                    <div class="row">
+                        <div class="col s7">
+                            <div class="input-field row">
+                                {{ $organizationId := .Proxy.ProxyHeader.OrganizationId }}
+                                <select name="organization_id" class="browser-default">
+                                    {{ range .Organizations }}
+                                    {{ if eq .Id $organizationId }}
+                                    <option value="{{ .Id }}" selected>{{ .Name }}</option>
+                                    {{ else }}
+                                    <option value="{{ .Id }}">{{ .Name }}</option>
+                                    {{ end }}
+                                    {{ end }}
+                                </select>
+                            </div>
+                            <div class="input-field row">
+                                {{ $employeeId := .Proxy.ProxyHeader.EmployeeId }}
+                                <select name="employee_id" class="browser-default">}}
+                                    {{ range .Employees }}
+                                    {{ if eq .Id $employeeId }}
+                                    <option value="{{ .Id }}" selected>{{ .LastName }} {{ .FirstName }} {{ .MiddleName
+                                        }}</option>
+                                    {{ else }}
+                                    <option value="{{ .Id }}">{{ .LastName }} {{ .FirstName }} {{ .MiddleName }}
+                                    </option>
+                                    {{ end }}
+                                    {{ end }}
+                                </select>
+                            </div>
+                            <div class="input-field row">
+                                {{ $customerId := .Proxy.ProxyHeader.CustomerId }}
+                                <select name="customer_id" class="browser-default">
+                                    {{ range .Customers }}
+                                    {{ if eq .Id $customerId }}
+                                    <option value="{{ .Id }}" selected>{{ .Name }}</option>
+                                    {{ else }}
+                                    <option value="{{ .Id }}">{{ .Name }}</option>
+                                    {{ end }}
+                                    {{ end }}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col s1"></div>
+                        <div class="col s4">
+                            <div class="input-field row">
+                                <input id="date_of_issue" name="date_of_issue" type="date"
+                                    value="{{ .Proxy.ProxyHeader.DateOfIssue }}">
+                                <label for="date_of_issue">Дата выдачи</label>
+                            </div>
+                            <div class="input-field row">
+                                <input id="is_valid_until" name="is_valid_until" type="date"
+                                    value="{{ .Proxy.ProxyHeader.IsValidUntil }}">
+                                <label for="is_valid_until">Действительна до</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="waves-effect waves-blue btn-flat white blue-text" type="submit"><i
+                            class="material-icons left">done</i>Подтвердить</button>
+                </form>
+
+                <h4>Товары</h4>
+                <a href="/documents/proxies/{{ .Proxy.ProxyHeader.Id }}/body/create" class="waves-effect waves-blue btn-flat white blue-text"><i
+                        class="material-icons left">add</i>Добавить</a>
+                <table>
+                    <thead>
+                        <th>Код товара</th>
+                        <th>Наименование товара</th>
+                        <th>Цена за ед.</th>
+                        <th>Количество</th>
+                        <th></th>
+                    </thead>
+                    {{ $proxyId := .Proxy.ProxyHeader.Id }}
+                    {{ range .ProxyBodyItems }}
+                    <tr>
+                        <td>{{ .Id }}</td>
+                        <td>{{ .Name }}</td>
+                        <td>{{ .Price }}</td>
+                        <td>{{ .ProductAmount }}</td>
+                        <td>
+                            <form action="/documents/proxies/body/delete" method="post" class="col">
+                                <input name="id" type="hidden" value="{{ .Id }}">
+                                <input name="proxy_id" type="hidden" value="{{ $proxyId }}">
+                                <button type="submit" class="btn-floating z-depth-0 waves-effect waves-light not-print">
+                                    <i class="material-icons red">delete</i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {{ end }}
+                </table>
+            </div>
+        </div>
+    </main>
+    <script src="/static/js/nav.js"></script>
+    <script src="/static/js/sidenav.js"></script>
+    <script src="/documents/static/js/sidenav-documents.js"></script>
+    <!-- Materialize JavaScript -->
+    <script src="/static/js/materialize.min.js"></script>
+</body>
+
+</html>

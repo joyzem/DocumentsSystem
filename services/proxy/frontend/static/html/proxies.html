@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/css/materialize.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Доверенности</title>
+</head>
+
+<body class="has-fixed-sidenav">
+    <header>
+    </header>
+    <main class="white">
+        <div class="container">
+            <div class="section">
+                <h5>Доверенности</h5>
+                <a href="/documents/proxies/create" class="waves-effect waves-blue btn-flat white blue-text"><i
+                        class="material-icons left">add</i>Добавить</a>
+                <table class="highlight">
+                    <thead>
+                        <th>№</th>
+                        <th>Организация</th>
+                        <th>Дата выдачи</th>
+                        <th>Действительна до</th>
+                        <th>Выдана</th>
+                        <th></th>
+                    </thead>
+                    {{ range . }}
+                    <tr>
+                        <td>{{ .Id }}</td>
+                        <td>{{ .Organization }}</td>
+                        <td>{{ .DateOfIssue }}</td>
+                        <td>{{ .IsValidUntil }}</td>
+                        <td>{{ .Employee }}</td>
+                        <td>
+                            <div class="valign-wrapper right">
+                                <form action="/documents/proxies/delete" method="post" class="col">
+                                    <input name="id" type="hidden" value="{{ .Id }}">
+                                    <button type="submit"
+                                        class="btn-floating z-depth-0 waves-effect waves-light margin-right">
+                                        <i class="material-icons red">delete</i>
+                                    </button>
+                                </form>
+                                <a href="/documents/proxies/update/{{ .Id }}" class="col">
+                                    <button class="btn-floating waves-effect z-depth-0 waves-light margin-right">
+                                        <i class="material-icons orange">edit</i>
+                                    </button>
+                                </a>
+                                <a href="/documents/proxies/details/{{ .Id }}" class="col">
+                                    <button class="btn-floating waves-effect z-depth-0 waves-light">
+                                        <i class="material-icons blue">visibility</i>
+                                    </button>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {{ end }}
+                </table>
+            </div>
+        </div>
+    </main>
+    <script type="text/javascript" src="/static/js/nav.js"></script>
+    <script src="/static/js/sidenav.js"></script>
+    <script src="/documents/static/js/sidenav-documents.js">
+    </script>
+    <!-- Materialize JavaScript -->
+    <script src="/static/js/materialize.min.js"></script>
+</body>
+
+</html>

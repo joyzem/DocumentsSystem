@@ -1,0 +1,221 @@
+# Это версия Docker Compose, используемая для этого файла конфигурации.
+version: '3'
+
+#Cекция, которая содержит определения сервисов, которые мы хотим запустить.
+services:
+  # Имя сервиса
+  product-back:
+    # Docker-образ, который будет использоваться для запуска этого сервиса.
+    image: documents:product-back
+    # Имя контейнера, который будет создан при запуске этого сервиса.
+    container_name: product-back
+    # Опция, которая указывает, что Docker должен построить образ на основе Dockerfile.
+    build: 
+      # Опция, которая указывает на папку, в которой находится docker-compose файл.
+      context: .
+      # ./services/product/backend/cmd/Dockerfile - указывает на путь к Dockerfile для product-back.
+      dockerfile: ./services/product/backend/cmd/Dockerfile
+    # Указывает на переменные окружения, которые будут использоваться в контейнере.
+    environment:
+      - DATABASE_HOST=database
+      - DATABASE_USER=student
+    # Указывает на папки, которые будут смонтированы () в контейнере.
+    volumes:
+      # Папка с модулями из этого проекта будет смонтирована в /go/pkg/mod
+      # Позволяет не устанавливать модули из интернета при билде докерфайла
+      - ./vendor:/go/pkg/mod
+    # Какие порты открыты в сервисе
+    ports:
+      - "7071:7071"
+    # Сервисы, от которых зависит данный сервис
+    depends_on:
+      - database
+  product-front:
+    image: documents:product-front
+    container_name: product-front
+    build:
+      context: .
+      dockerfile: ./services/product/frontend/cmd/Dockerfile
+    environment:
+      - PRODUCT_BACKEND_ADDRESS=http://product-back:7071
+    volumes:
+      - ./static:/app/static
+      - ./vendor:/go/pkg/mod
+    ports:
+      - "8081:8081"
+  organization-back:
+      image: documents:organization-back
+      container_name: organization-back
+      build: 
+        context: .
+        dockerfile: ./services/organization/backend/cmd/Dockerfile
+      environment:
+        - DATABASE_HOST=database
+        - DATABASE_USER=student
+      volumes:
+        - ./vendor:/go/pkg/mod
+      ports:
+        - "7072:7072"
+      depends_on:
+        - database
+  organization-front:
+    image: documents:organization-front
+    container_name: organization-front
+    build:
+      context: .
+      dockerfile: ./services/organization/frontend/cmd/Dockerfile
+    environment:
+      - ORGANIZATION_BACKEND_ADDRESS=http://organization-back:7072
+      - ACCOUNTS_BACKEND_ADDRESS=http://account-back:7073
+    volumes: 
+      - ./static:/app/static
+      - ./vendor:/go/pkg/mod
+    ports:
+      - "8082:8082"
+  account-back:
+    image: documents:account-back
+    container_name: account-back
+    build: 
+      context: .
+      dockerfile: ./services/account/backend/cmd/Dockerfile
+    environment:
+      - DATABASE_HOST=database
+      - DATABASE_USER=student
+    volumes:
+      - ./vendor:/go/pkg/mod
+    ports:
+      - "7073:7073"
+    depends_on:
+      - database
+  account-front:
+    image: documents:account-front
+    container_name: account-front
+    build:
+      context: .
+      dockerfile: ./services/account/frontend/cmd/Dockerfile
+    environment:
+      - ACCOUNT_BACKEND_ADDRESS=http://account-back:7073
+    volumes:
+      - ./static:/app/static
+      - ./vendor:/go/pkg/mod
+    ports:
+      - "8083:8083"
+  employee-back:
+    image: documents:employee-back
+    container_name: employee-back
+    build: 
+      context: .
+      dockerfile: ./services/employee/backend/cmd/Dockerfile
+    environment:
+      - DATABASE_HOST=database
+      - DATABASE_USER=student
+    volumes:
+      - ./vendor:/go/pkg/mod
+    ports:
+      - "7074:7074"
+    depends_on:
+      - database
+  employee-front:
+    image: documents:employee-front
+    container_name: employee-front
+    build:
+      context: .
+      dockerfile: ./services/employee/frontend/cmd/Dockerfile
+    volumes:
+      - ./static:/app/static
+      - ./vendor:/go/pkg/mod
+    environment:
+      - EMPLOYEE_BACKEND_ADDRESS=http://employee-back:7074
+    ports:
+      - "8084:8084"
+  customer-back:
+    image: documents:customer-back
+    container_name: customer-back
+    build:
+      context: .
+      dockerfile: ./services/customer/backend/cmd/Dockerfile
+    environment:
+      - DATABASE_HOST=database
+      - DATABASE_USER=student
+    volumes:
+      - ./vendor:/go/pkg/mod
+    ports:
+      - "7075:7075"
+    depends_on:
+      - database
+  customer-front:
+    image: documents:customer-front
+    container_name: customer-front
+    build: 
+      context: .
+      dockerfile: ./services/customer/frontend/cmd/Dockerfile
+    environment:
+      - CUSTOMER_BACKEND_ADDRESS=http://customer-back:7075
+    volumes:
+      - ./static:/app/static
+      - ./vendor:/go/pkg/mod
+    ports:
+      - "8085:8085"
+  proxy-back:
+    image: documents:proxy-back
+    container_name: proxy-back
+    build:
+      context: .
+      dockerfile: ./services/proxy/backend/cmd/Dockerfile
+    environment:
+      - DATABASE_HOST=database
+      - DATABASE_USER=student
+    volumes:
+      - ./vendor:/go/pkg/mod
+    ports:
+      - "7076:7076"
+    depends_on:
+      - database
+  proxy-front:
+    image: documents:proxy-front
+    container_name: proxy-front
+    build:
+      context: .
+      dockerfile: ./services/proxy/frontend/cmd/Dockerfile
+    volumes: 
+      - ./static:/app/static
+      - ./vendor:/go/pkg/mod
+    environment:
+      - ORGANIZATION_BACKEND_ADDRESS=http://organization-back:7072
+      - EMPLOYEE_BACKEND_ADDRESS=http://employee-back:7074
+      - PRODUCT_BACKEND_ADDRESS=http://product-back:7071
+      - PROXY_BACKEND_ADDRESS=http://proxy-back:7076
+      - ACCOUNT_BACKEND_ADDRESS=http://account-back:7073
+      - CUSTOMER_BACKEND_ADDRESS=http://customer-back:7075
+    ports:
+      - "8086:8086"
+  home-front:
+    image: documents:home-front
+    container_name: home-front
+    build:
+      context: .
+      dockerfile: ./services/home/cmd/Dockerfile
+    volumes:
+      - ./static:/app/static
+      - ./vendor:/go/pkg/mod
+    environment:
+      - PRODUCT_ADDRESS=http://product-front:8081
+      - ORGANIZATION_ADDRESS=http://organization-front:8082
+      - ACCOUNT_ADDRESS=http://account-front:8083
+      - EMPLOYEE_ADDRESS=http://employee-front:8084
+      - CUSTOMER_ADDRESS=http://customer-front:8085
+      - PROXY_ADDRESS=http://proxy-front:8086
+    ports:
+      - "80:80"
+  database:
+    image: postgres:15.1
+    environment:
+      POSTGRES_USER: student
+      POSTGRES_PASSWORD: qwerty
+      POSTGRES_DB: proxy_db
+    ports:
+      - "5432:5432"
+    volumes: 
+      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
+      
